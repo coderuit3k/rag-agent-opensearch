@@ -81,3 +81,7 @@ uv run python evaluate.py
    - *Search Mode:* Web search leveraging Tavily API.
 3. **Re-rank Candidates:** Top results pass through Cohere Rerank API limiting down to the best 3 results.
 4. **Generate Answer:** `gpt-4o-mini` structures the final output using context & history.
+
+## 📸 Demo
+
+![RAG Agent FastAPI Demo](demo.png)
