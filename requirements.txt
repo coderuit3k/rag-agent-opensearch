@@ -1,0 +1,16 @@
+bs4
+python-dotenv
+langchain-core
+langchain-text-splitters
+langchain-openai
+langchain-community
+langchain-tavily
+supabase
+langgraph
+langgraph-checkpoint
+cohere
+opensearch-py
+boto3
+requests-aws4auth
+fastapi
+uvicorn

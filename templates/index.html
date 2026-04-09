@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RAG Agent Demo</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .chat-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 400px;
+            overflow-y: scroll;
+        }
+        .msg {
+            margin: 10px 0;
+        }
+        .user { color: blue; }
+        .bot { color: green; }
+        .meta { font-size: 12px; color: gray; }
+    </style>
+</head>
+<body>
+
+<h2>RAG Agent (FastAPI Demo)</h2>
+
+<div class="chat-box" id="chat"></div>
+
+<input id="input" style="width:80%">
+<button onclick="send()">Send</button>
+
+<script>
+let thread_id = null;
+
+async function send() {
+    const input = document.getElementById("input");
+    const message = input.value;
+    input.value = "";
+
+    addMessage("User", message, "user");
+
+    const res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            message: message,
+            thread_id: thread_id
+        })
+    });
+
+    const data = await res.json();
+
+    thread_id = data.thread_id;
+
+    addMessage(
+        "Agent",
+        data.answer,
+        "bot",
+        `route: ${data.route} | thread: ${thread_id}`
+    );
+}
+
+function addMessage(sender, text, cls, meta="") {
+    const chat = document.getElementById("chat");
+
+    const div = document.createElement("div");
+    div.className = "msg";
+
+    div.innerHTML = `
+        <div class="${cls}"><b>${sender}:</b> ${text}</div>
+        <div class="meta">${meta}</div>
+    `;
+
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+}
+</script>
+
+</body>
+</html>
